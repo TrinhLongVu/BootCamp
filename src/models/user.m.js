@@ -1,27 +1,37 @@
 'use strict'
 
 const mongoose = require('mongoose'); 
-const DOCUMENT_NAME = 'Shop'
-const COLLECTION_NAME = 'Shops'
+const {Schema, Types} = require('mongoose')
+const DOCUMENT_NAME = 'User'
+const COLLECTION_NAME = 'Users'
 
-var shopSchema = new mongoose.Schema({
-    name:{
+const userSchema = new Schema(
+    {
+      fullname: String,
+      avatar: String,
+      state: { type: String, enum: ["active", "ban"], default: "active" },
+      email: {
         type: String,
-        trim: true,
-        maxLength: 150
+        unique: true,
+        sparse: true,
+      },
+      password: { type: String, required: true },
+      birth_date: { type: Date },
+      gender: {
+        type: String,
+        enum: ["male", "female"],
+      },
+      role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user",
+      },
+      bio: String,
+      history: [{ type: Types.ObjectId, ref: "Plan" }],
     },
-    email:{
-        type:String,
-        trim:true,
-        unique:true,
-    },
-    password:{
-        type:String,
-        required:true,
-    }
-}, {
-    timestamps: true,
-    collection: COLLECTION_NAME
-});
+    {
+        timestamps: true,
+        collection: COLLECTION_NAME}
+  );
 
-module.exports = mongoose.model(DOCUMENT_NAME, shopSchema);
+module.exports = mongoose.model(DOCUMENT_NAME, userSchema);

@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const config = require('../configs/mongodb.config')
-//const string_mongodb = `mongodb+srv://Ecommerce:${config.db.password}@cluster0.iwaphxz.mongodb.net/${config.db.name}?retryWrites=true&w=majority&appName=Cluster0`
+const string_mongodb = `mongodb+srv://BootCamp:${config.db.password}@cluster0.ytiuz0z.mongodb.net/${config.db.name}?retryWrites=true&w=majority&appName=Cluster0`
 
 class Database {
     constructor() {
         this.#connect();
+        console.log(config.db.password)
     }
 
     #connect(type = 'mongodb') {
