@@ -14,7 +14,8 @@ app.use(morgan("dev")) // Change color status in terminal
 app.use(compression()) // Decrease load data
 
 //Connect DB
-require('./dbs/mongodb')
+//require('./dbs/mongodb')
+require('./dbs/mysql'); 
 
 //router
 app.use('', require('./routers'))

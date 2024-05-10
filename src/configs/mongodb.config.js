@@ -1,20 +1,20 @@
 const dev = {
     app: {
-        port: process.env.DEV_APP_PORT
+        port: process.env.DEV_MONGO_APP_PORT
     },
     db: {
-        password: process.env.DEV_DB_PASSWORD,
-        name: process.env.DEV_DB_NAME
+        password: process.env.DEV_MONGO_DB_PASSWORD,
+        name: process.env.DEV_MONGO_DB_NAME
     }
 }
 
 const product = {
     app: {
-        port: process.env.PRO_APP_PORT
+        port: process.env.PRO_MONGO_APP_PORT
     },
     db: {
-        password: process.env.PRO_DB_PASSWORD,
-        name: process.env.PRO_DB_NAME
+        password: process.env.PRO_MONGO_DB_PASSWORD,
+        name: process.env.PRO_MONGO_DB_NAME
     }
 }
 
