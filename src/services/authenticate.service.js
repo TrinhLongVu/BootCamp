@@ -1,17 +1,11 @@
 'use strict'
+const {
+    BadRequest
+} = require('../core/error.response')
 
 class AuthenticateService {
     static signUp = async ({ name, email, password }) => {
-        try {
-            return {
-                code: "201", 
-            }
-        } catch(err) {
-            return {
-                code: "403",
-                message: err
-            }
-        }
+        throw new BadRequest("User already registered")
     }
 }
 

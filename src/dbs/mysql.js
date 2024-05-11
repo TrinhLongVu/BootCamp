@@ -3,7 +3,7 @@ const config = require('../configs/mysql.config')
 
 class Database {
     constructor() {
-        this.#connect();
+        this.connection = this.#connect();
     }
 
     #connect() {
@@ -52,6 +52,6 @@ class Database {
     }
 }
 
-const instanceMongoDb = Database.getInstance()
+const instanceMySQL = Database.getInstance();
 
-module.exports = instanceMongoDb
+module.exports = instanceMySQL;
