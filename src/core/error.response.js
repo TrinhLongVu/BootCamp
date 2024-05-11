@@ -1,12 +1,7 @@
 'use strict'
 
-const statusCode = {
-    FORBIDEN: 403
-}
-
-const messageCode = {
-    FORBIDEN: 'Bad request error'
-}
+const statusCode = require('./httpStatusCodes')
+const reasonCode = require('./reasonPhrases')
 
 class HandelError extends Error {
     constructor(message, status) {
@@ -16,9 +11,15 @@ class HandelError extends Error {
 }
 
 class BadRequest extends HandelError {
-    constructor(message = messageCode.FORBIDEN, status = statusCode.FORBIDEN) {
+    constructor(message = reasonCode.FORBIDDEN, status = statusCode.FORBIDDEN) {
         super(message, status)
     }
 }
 
-module.exports = { BadRequest }
+class AuthRequest extends HandelError {
+    constructor(message = reasonCode.UNAUTHORIZED, status = statusCode.UNAUTHORIZED) {
+        super(message, status)
+    }
+}
+
+module.exports = { BadRequest, AuthRequest}

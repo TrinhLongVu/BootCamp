@@ -10,6 +10,12 @@ class AuthenticateController {
             messageData: await AuthenticateService.signUp(req.body)
         }).send(res)
     }
+    login = async (req, res, next) => {
+        new Created({
+            message: 'Login success',
+            messageData: await AuthenticateService.logIn(req.body)
+        }).send(res)
+    }
 }
 
 module.exports = new AuthenticateController()
