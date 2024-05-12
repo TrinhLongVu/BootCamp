@@ -11,7 +11,7 @@ class HandelError extends Error {
 }
 
 class BadRequest extends HandelError {
-    constructor(message = reasonCode.FORBIDDEN, status = statusCode.FORBIDDEN) {
+    constructor(message = reasonCode.BAD_REQUEST, status = statusCode.BAD_REQUEST) {
         super(message, status)
     }
 }

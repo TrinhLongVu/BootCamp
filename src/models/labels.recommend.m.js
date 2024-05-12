@@ -1,12 +1,13 @@
 'use strict'
+
 const db = require('../dbs/mysql')
 const {
     handleDatabaseError
 } = require('../helpers/catch.error')
 
 class LabelsRecommend {
-    async getRcAcommodation() {
-        return await db.query('SELECT * FROM RcAcommodation').catch(handleDatabaseError);
+    async getRcAccommodation() {
+        return await db.query('SELECT * FROM RcAccommodation').catch(handleDatabaseError);
     }
 
     async getRcActivity() {

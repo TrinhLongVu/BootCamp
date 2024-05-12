@@ -56,3 +56,5 @@ const reason = {
     USE_PROXY: 'Use Proxy',
     MISDIRECTED_REQUEST: 'Misdirected Request'
 }
+
+module.exports = reason
