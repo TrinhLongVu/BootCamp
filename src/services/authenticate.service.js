@@ -94,7 +94,6 @@ class AuthenticateService {
             throw new AuthRequest("Verify otp failed");
         }
 
-        console.log(user)
         if((user.create_otp.getSeconds() - new Date().getSeconds()) > 300) {
             throw new AuthRequest("Expired otp");
         }

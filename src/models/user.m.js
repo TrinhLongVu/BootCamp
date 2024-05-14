@@ -50,6 +50,17 @@ class UserModel {
             return true
         return false;
     }
+
+    static async updateUser({ user }) {
+        const update = await db.query(`
+            UPDATE User
+            SET fullname = ?, avatar = ?
+            WHERE email = ?;`, [user.fullname, user.avatar, user.email]
+        );
+        if (update.affectedRows === 1)
+            return true
+        return false;
+    }
 }
 
 module.exports = UserModel
