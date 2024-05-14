@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 function authenticateToken(req, res, next) {
     const token = req.headers.authorization && req.headers.authorization.startsWith('Bearer') && req.headers.authorization.split(' ')[1] ;
 
-    console.log(token, "121312")
     if (!token) {
         return res.status(401).json({
             status: 401,

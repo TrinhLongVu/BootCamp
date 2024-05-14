@@ -18,7 +18,7 @@ app.use(compression()) // Decrease load data
 require('./dbs/mysql'); 
 
 //router
-app.use('', require('./routers'))
+app.use('/v1/api', require('./routers'))
 
 // handle error
 app.use((req, res, next) => {

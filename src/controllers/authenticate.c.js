@@ -1,6 +1,6 @@
 'use strict'
 
-const { Created } = require("../core/success.response")
+const { Created, OK } = require("../core/success.response")
 const AuthenticateService = require("../services/authenticate.service")
 
 class AuthenticateController {
@@ -14,6 +14,18 @@ class AuthenticateController {
         new Created({
             message: 'Login success',
             messageData: await AuthenticateService.logIn(req.body)
+        }).send(res)
+    }
+    genOtp = async (req, res, next) => {
+        new OK({
+            message: 'Generate opt success',
+            messageData: await AuthenticateService.genOtp(req.body)
+        }).send(res)
+    }
+    verifyOtp = async (req, res, next) => {
+        new OK({
+            message: 'Generate opt success',
+            messageData: await AuthenticateService.verifyOtp(req.body)
         }).send(res)
     }
 }

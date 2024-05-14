@@ -7,5 +7,7 @@ const { asyncHandler } = require('../../helpers/catch.asyns')
 const isLogin = require('../../middleware/auth')
     
 router.get('/RcAccommodation', isLogin, asyncHandler(recomendation.RcAccommodation))
+router.get('/RcActivity', isLogin, asyncHandler(recomendation.RcActivity))
+router.get('/RcTransport', isLogin, asyncHandler(recomendation.RcTransport))
 
 module.exports = router

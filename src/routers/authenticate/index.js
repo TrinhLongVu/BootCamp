@@ -7,5 +7,7 @@ const { asyncHandler } = require('../../helpers/catch.asyns')
     
 router.post('/signup', asyncHandler(authenticateController.signUp))
 router.post('/login', asyncHandler(authenticateController.login))
-
+router.post("/generate-otp", asyncHandler(authenticateController.genOtp));
+router.post("/verify-otp", asyncHandler(authenticateController.verifyOtp));
+  
 module.exports = router

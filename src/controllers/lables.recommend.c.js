@@ -1,13 +1,25 @@
 'use strict'
 
-const { Created } = require("../core/success.response")
+const { OK } = require("../core/success.response")
 const recommendService = require("../services/lables.recommend.services")
 
 class LablesRecommendation {
     RcAccommodation = async (req, res, next) => {
-        new Created({
-            message: 'get recommendations success',
+        new OK({
+            message: 'get accommodation recommendations success',
             messageData: await recommendService.getAccommodation()
+        }).send(res)
+    }
+    RcActivity = async (req, res, next) => {
+        new OK({
+            message: 'get activity recommendations success',
+            messageData: await recommendService.getActivity()
+        }).send(res)
+    }
+    RcTransport = async (req, res, next) => {
+        new OK({
+            message: 'get transport recommendations success',
+            messageData: await recommendService.getTransport()
         }).send(res)
     }
 }

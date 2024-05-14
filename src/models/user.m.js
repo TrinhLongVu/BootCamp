@@ -21,10 +21,34 @@ class UserModel {
         
     static async addUser({ email, fullname, password}) {
         const user = await db.query(`
-            INSERT INTO User (fullname, email, password, role)
-            VALUES (?, ?, ?, ?)`, [fullname, email, password, 'user']
+            INSERT INTO User (fullname, email, password, role, isActivated)
+            VALUES (?, ?, ?, ?, ?)`, [fullname, email, password, 'user', false]
         );
-        return user;
+        if (user.affectedRows === 1)
+            return true
+        return false;
+    }
+
+    static async updateOtp({ otp, email, createAt }) {
+        const user = await db.query(`
+            UPDATE User
+            SET otp = ?, create_otp = ?
+            WHERE email = ?;`, [otp, createAt, email]
+        );
+        if (user.affectedRows === 1)
+            return true
+        return false;
+    }
+
+    static async activeUser({email}) {
+        const user = await db.query(`
+            UPDATE User
+            SET isActivated = ?
+            WHERE email = ?;`, [true, email]
+        );
+        if (user.affectedRows === 1)
+            return true
+        return false;
     }
 }
 
