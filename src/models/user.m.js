@@ -23,7 +23,7 @@ class UserModel {
         const user = await db.query(`
             INSERT INTO User (fullname, email, password, role, isActivated)
             VALUES (?, ?, ?, ?, ?)`, [fullname, email, password, 'user', false]
-        );
+        ).catch(handleDatabaseError);
         if (user.affectedRows === 1)
             return true
         return false;
@@ -34,7 +34,7 @@ class UserModel {
             UPDATE User
             SET otp = ?, create_otp = ?
             WHERE email = ?;`, [otp, createAt, email]
-        );
+        ).catch(handleDatabaseError);
         if (user.affectedRows === 1)
             return true
         return false;
@@ -45,7 +45,7 @@ class UserModel {
             UPDATE User
             SET isActivated = ?
             WHERE email = ?;`, [true, email]
-        );
+        ).catch(handleDatabaseError);
         if (user.affectedRows === 1)
             return true
         return false;
@@ -56,7 +56,7 @@ class UserModel {
             UPDATE User
             SET fullname = ?, avatar = ?
             WHERE email = ?;`, [user.fullname, user.avatar, user.email]
-        );
+        ).catch(handleDatabaseError);
         if (update.affectedRows === 1)
             return true
         return false;

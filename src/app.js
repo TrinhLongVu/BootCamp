@@ -30,6 +30,12 @@ app.use(compression()) // Decrease load data
 //require('./dbs/mongodb')
 require('./dbs/mysql'); 
 
+// inset data into database
+// insertData = async () => {
+//     await require('./uploadfilecsv/uploadfile')()
+// }
+// insertData()
+
 //router
 app.use('/v1/api', require('./routers'))
 

@@ -11,7 +11,6 @@ const { generateOTP, sendOTP } = require("../utils");
 
 class AuthenticateService {
     static signUp = async ({
-        name,
         email,
         password
     }) => {
@@ -21,7 +20,9 @@ class AuthenticateService {
         }
 
         const passHash = await bcrypt.hash(password, 10)
-        const newuser = await userModel.addUser({ email, fullname: name, password: passHash })
+        const fullname = email.split("@")[0]
+
+        const newuser = await userModel.addUser({ email, fullname, password: passHash })
         
         if (!newuser) {
             throw new BadRequest("Error create user")
@@ -30,7 +31,7 @@ class AuthenticateService {
         return {
             user: {
                 id: newuser.insertId,
-                fullname: name, 
+                fullname, 
                 email: email
             }
         }

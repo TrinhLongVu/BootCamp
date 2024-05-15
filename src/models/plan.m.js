@@ -11,7 +11,7 @@ class planModel {
             UPDATE Plan
             SET isViewed = ?
             WHERE id = ?;`, [false, id]
-        );
+        ).catch(handleDatabaseError);
         if (update.affectedRows === 1)
             return true
         return false;
