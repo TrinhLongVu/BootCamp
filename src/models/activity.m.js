@@ -1,7 +1,5 @@
 'use strict'
 
-'use strict'
-
 const db = require('../dbs/mysql')
 const {
     handleDatabaseError
@@ -17,6 +15,16 @@ class activityModel {
             VALUES (?, ?, ?, ?, ?, ?, ?);`, [name || null, parseFloat(rating) || 0, parseInt(num_comment) || 0, parseFloat(price) || 0, image || null, address || null, type_activity || null]
         ).catch(handleDatabaseError);
         if (update.affectedRows === 1)
+            return true
+        return false;
+    }
+
+    async getActivity({ name }) {
+        const get = await db.query(`
+            SELECT * from Activity
+            Where name = ?`, [name]
+        ).catch(handleDatabaseError);
+        if (get.affectedRows === 1)
             return true
         return false;
     }
