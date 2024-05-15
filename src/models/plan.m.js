@@ -6,6 +6,7 @@ const {
 } = require('../helpers/catch.error')
 
 class planModel {
+    // Delete plan but only using hidden view
     async hiddenPlan(id) {
         const update = await db.query(`
             UPDATE Plan
@@ -29,6 +30,7 @@ class planModel {
         return false;
     }
 
+    // Create Plan
     async createPlan({budget, id_user, destination, start_day, end_day, id_transport}) {
         const add = await db.query(`
             insert into Plan(budget, id_user, destination, start_day, end_day, id_transport, isViewed, createAt)

@@ -1,7 +1,7 @@
 'use strict'
 
 const { OK } = require("../core/success.response")
-const recommendService = require("../services/lables.recommend.services")
+const recommendService = require("../services/references.services")
 
 class LablesRecommendation {
     RcAccommodation = async (req, res, next) => {

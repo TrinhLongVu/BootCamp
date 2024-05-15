@@ -20,6 +20,8 @@ class AuthenticateService {
         }
 
         const passHash = await bcrypt.hash(password, 10)
+
+        // get full name from email
         const fullname = email.split("@")[0]
 
         const newuser = await userModel.addUser({ email, fullname, password: passHash })
