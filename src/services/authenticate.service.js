@@ -110,6 +110,21 @@ class AuthenticateService {
             user
         }
     }
+
+    static changePassword = async ({email, newPassword}) => {
+        let user = await userModel.getUser({ email })
+        if (user == undefined) {
+            throw new BadRequest("User is not exits")
+        }
+        const passHash = await bcrypt.hash(newPassword, 10)
+        const isUpdated = await userModel.updatePassword({ email, password: passHash });
+
+        if (!isUpdated) {
+            throw new BadRequest("change password is failed")
+        }
+
+        return {}
+    }
 }
 
 module.exports = AuthenticateService

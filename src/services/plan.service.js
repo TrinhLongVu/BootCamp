@@ -7,14 +7,22 @@ const planModel = require('../models/plan.m')
 
 
 class planService {
-    static hiddenPlan = async ({id}) => {
-        const isUpdated = await planModel.hiddenPlan(id);
+    static hiddenPlan = async (idPlan, idUser) => {
+        const isUpdated = await planModel.hiddenPlan({idPlan, idUser});
 
         if (!isUpdated) {
             throw new BadRequest("delete failed")
         }
 
         return {}
+    }
+
+    static getDetailPlan = async (idPlan, idUser) => {
+        const plan = await planModel.getDetailPlan({idPlan, idUser})
+
+        return {
+            plan
+        }
     }
 }
 

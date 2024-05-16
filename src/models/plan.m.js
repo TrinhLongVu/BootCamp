@@ -7,11 +7,11 @@ const {
 
 class planModel {
     // Delete plan but only using hidden view
-    async hiddenPlan(id) {
+    async hiddenPlan({ idPlan, idUser }) {
         const update = await db.query(`
             UPDATE Plan
             SET isViewed = ?
-            WHERE id = ?;`, [false, id]
+            WHERE id = ? and id_user = ?;`, [false, idPlan, idUser]
         ).catch(handleDatabaseError);
         if (update.affectedRows === 1)
             return true
@@ -57,6 +57,16 @@ class planModel {
             return true
         return false;
     }  
+
+    async getDetailPlan({ idPlan, idUser }) {
+        const plan = await db.query(`
+            select distinct p.id idPlan, p.destination destination, p.start_day start_day, p.end_day end_day, a.id idActivity, a.rating ratingActivity, a.num_comment commentActivity, a.price priceActivity, a.image imageActivity, a.address addressActivity, ac.id idAccommodation, ac.name nameAccommodation, ac.price priceAccommodation, ac.rating ratingAccommodation 
+            from Plan p, Activity_Plan ap, Activity a, Accommodation_Plan acp, Accommodation ac, Transport t
+            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and a.id = ap.id_activity and acp.id_plan = p.id and ac.id = acp.id_accommodation and t.id = p.id_transport and p.isViewed = true`
+            ,[idUser, idPlan]
+        );
+        return plan;
+    }
 }
 
 module.exports = new planModel()

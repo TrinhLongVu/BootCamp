@@ -28,6 +28,12 @@ class AuthenticateController {
             messageData: await AuthenticateService.verifyOtp(req.body)
         }).send(res)
     }
+    forgotPassword = async (req, res, next) => {
+        new OK({
+            message: 'Change password success',
+            messageData: await AuthenticateService.changePassword(req.body)
+        }).send(res)
+    } 
 }
 
 module.exports = new AuthenticateController()

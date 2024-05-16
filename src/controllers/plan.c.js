@@ -8,8 +8,14 @@ const planService = require("../services/plan.service")
 class planController {
     hiddenPlan = async (req, res, next) => {
         new OK({
-            message: 'get user success',
-            messageData: await planService.hiddenPlan(req.body)
+            message: 'hidden plan success',
+            messageData: await planService.hiddenPlan(req.body.idPlan, req.user.id)
+        }).send(res)
+    }
+    getPlan = async (req, res, next) => {
+        new OK({
+            message: 'get plan success',
+            messageData: await planService.getDetailPlan(req.body.idPlan, req.user.id)
         }).send(res)
     }
 }

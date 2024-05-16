@@ -61,22 +61,14 @@ class UserModel {
             return true
         return false;
     }
-
-    // handle user reference
-    static async userActivity({id_rcActivity, id_user}) {
-        const add = await db.query(`
-            insert into User_RcActivity(id_rcActivity, id_user)
-            values(?, ?)`, [id_rcActivity, id_user]).catch(handleDatabaseError);
-        if (add.affectedRows === 1)
-            return true
-        return false;
-    }
-
-    static async userAccommodation({id_rcAccommodation, id_user}) {
-        const add = await db.query(`
-            insert into User_RcAccommodation(id_rcAccommodation, id_user)
-            values(?, ?)`, [id_rcAccommodation, id_user]).catch(handleDatabaseError);
-        if (add.affectedRows === 1)
+    
+    static async updatePassword({ email, password }) {
+        const update = await db.query(`
+            UPDATE User
+            SET password = ?
+            WHERE email = ?;`, [password, email]
+        ).catch(handleDatabaseError);
+        if (update.affectedRows === 1)
             return true
         return false;
     }
