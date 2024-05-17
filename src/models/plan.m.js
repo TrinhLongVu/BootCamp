@@ -58,12 +58,47 @@ class planModel {
         return false;
     }  
 
-    async getDetailPlan({ idPlan, idUser }) {
+    async getPlan({ idPlan, idUser }) {
         const plan = await db.query(`
-            select distinct p.id idPlan, p.destination destination, p.start_day start_day, p.end_day end_day, a.id idActivity, a.rating ratingActivity, a.num_comment commentActivity, a.price priceActivity, a.image imageActivity, a.address addressActivity, ac.id idAccommodation, ac.name nameAccommodation, ac.price priceAccommodation, ac.rating ratingAccommodation 
-            from Plan p, Activity_Plan ap, Activity a, Accommodation_Plan acp, Accommodation ac, Transport t
-            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and a.id = ap.id_activity and acp.id_plan = p.id and ac.id = acp.id_accommodation and t.id = p.id_transport and p.isViewed = true`
+            select distinct *
+            from Plan p
+            where p.id_user = ? and p.id = ?`
             ,[idUser, idPlan]
+        );
+        return plan[0];
+    }
+
+    // Get all activity of a user's plan.
+    async getActivityOfUser({ idPlan, idUser }) {
+        const plan = await db.query(`
+            select distinct a.*, ap.calendar
+            from Plan p, Activity_Plan ap, Activity a
+            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and a.id = ap.id_activity and p.isViewed = true
+            order by ap.calendar;`
+            ,[idUser, idPlan]
+        );
+        return plan;
+    }
+
+    // Get all accommodation of a user's plan.
+    async getAccomodationOfUser({ idPlan, idUser }) {
+        const plan = await db.query(`
+            select distinct a.*, ap.calendar
+            from Plan p, Accommodation_Plan ap, Accommodation a
+            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and  a.id = ap.id_accommodation and p.isViewed = true
+            order by ap.calendar;`
+            ,[idUser, idPlan]
+        );
+        return plan;
+    }
+
+    // Get all plan of user
+    async getUserPlaning(idUser) {
+        const plan = await db.query(`
+            select * 
+            from Plan
+            where id_user = '1'`
+        ,[idUser]
         );
         return plan;
     }

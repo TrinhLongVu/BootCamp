@@ -19,6 +19,7 @@ class activityModel {
         return false;
     }
 
+    // select activity
     async getActivity({ name }) {
         const get = await db.query(`
             SELECT * from Activity
