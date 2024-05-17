@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
 const getInfoData = ({fields = [], object = {}}) => {
@@ -7,8 +6,11 @@ const getInfoData = ({fields = [], object = {}}) => {
 }
 
 const generateOTP = () => {
-  const otp = crypto.randomInt(0, 1000000);
-  return otp.toString().padStart(6, '0');
+  let otp = '';
+  for (let i = 0; i < 6; i++) {
+    otp += Math.floor(Math.random() * 10);
+  }
+  return otp.padStart(6, '0');
 };
 
 const sendOTP = (email, OTP) => {
