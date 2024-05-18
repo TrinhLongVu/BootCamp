@@ -24,4 +24,4 @@ const product = {
 const config = { dev, product }
 const env = process.env.NODE_ENV || 'dev'
 
-module.exports = config[env]
+module.exports = dev
