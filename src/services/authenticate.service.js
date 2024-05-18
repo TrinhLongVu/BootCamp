@@ -7,7 +7,7 @@ const {
 const userModel = require('../models/user.m')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-const { generateOTP, sendOTP } = require("../utils");
+const { generateOTP, sendOTP, getInfoData } = require("../utils");
 
 class AuthenticateService {
     static signUp = async ({
@@ -106,9 +106,10 @@ class AuthenticateService {
             throw new BadRequest("Save otp is failed")
         }
 
-        return {
-            user
-        }
+        return getInfoData({
+            fields: ['id', 'fullname', 'email'],
+            object: user
+        })
     }
 
     static changePassword = async ({email, newPassword}) => {
