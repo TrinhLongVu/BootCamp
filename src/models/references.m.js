@@ -6,15 +6,15 @@ const {
 } = require('../helpers/catch.error')
 
 class LabelsRecommend {
-    async getRcAccommodation() {
+    static async getRcAccommodation() {
         return await db.query('SELECT * FROM RcAccommodation').catch(handleDatabaseError);
     }
 
-    async getRcActivity() {
+    static async getRcActivity() {
         return await db.query('SELECT * FROM RcActivity').catch(handleDatabaseError);
     }
 
-    async getRcTransport() {
+    static async getRcTransport() {
         return await db.query('SELECT * FROM RcTransport').catch(handleDatabaseError);
     }
 
@@ -36,6 +36,13 @@ class LabelsRecommend {
             return true
         return false;
     }
+
+    static async getIdRcAccommodation(name) {
+        return await db.query(`
+            select id from RcAccommodation
+            where name = ?;`, [name]
+        ).catch(handleDatabaseError);
+    }
 }
 
-module.exports = new LabelsRecommend()
+module.exports = LabelsRecommend

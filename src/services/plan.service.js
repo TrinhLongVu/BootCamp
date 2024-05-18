@@ -4,6 +4,7 @@ const {
     AuthRequest
 } = require('../core/error.response')
 const planModel = require('../models/plan.m')
+const transportModel = require('../models/transport.m')
 
 
 class planService {
@@ -33,6 +34,12 @@ class planService {
             activity,
             accommodation
         }
+    }
+
+    // create plan 
+    static createPlan = async ({ budget, id_user, destination, start_day, end_day, priceTransport }, idUser) => {
+        // handle after
+        await  transportModel.createTransport()
     }
 
     // get all plan for user

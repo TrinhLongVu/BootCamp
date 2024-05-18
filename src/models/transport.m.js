@@ -6,9 +6,19 @@ const {
 } = require('../helpers/catch.error')
 
 class transportModel {
-    async getTransport() {
+    static async getTransport() {
 
+    }
+    static async createTransport({price, type}) {
+        const add = await db.query(`
+            insert into Transport(price, type)
+            values(?, ?)`, [price, type]).catch(handleDatabaseError);
+        if (add.affectedRows === 1) {
+            const newId = add.insertId;
+            return newId;
+        }
+        return false;
     }
 }
 
-module.exports = new transportModel()
+module.exports = transportModel

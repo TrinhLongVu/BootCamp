@@ -37,8 +37,8 @@ require('./dbs/mysql');
 //inset data into database
 // const {activity, Accommodation} = require('./uploadfilecsv/uploadfile')
 // insertData = async () => {
-//     await activity('activity.csv')
-//     await Accommodation('Accommodation.csv')
+   // await activity('activity_1.csv')
+   // await Accommodation('Accommodation.csv')
 // }
 // insertData()
 

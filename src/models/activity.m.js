@@ -6,13 +6,14 @@ const {
 } = require('../helpers/catch.error')
 
 class activityModel {
-    async insertDB({ name, rating, num_comment, price, image, address, type_activity }) {
+    static async insertDB({ name, rating, num_comment, price,image, address, distance, type_activity, openTime, closeTime }) {
         if (image.length > 1000) {
             image = null
         }
         const update = await db.query(`
-            INSERT INTO Activity (name, rating, num_comment, price, image, address, type_activity)
-            VALUES (?, ?, ?, ?, ?, ?, ?);`, [name || null, parseFloat(rating) || 0, parseInt(num_comment) || 0, parseFloat(price) || 0, image || null, address || null, type_activity || null]
+            INSERT INTO Activity (name, rating, num_comment, price, image, address, type_activity, distance, openTime, closeTime)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+            [name || null, parseFloat(rating) || 0, parseInt(num_comment) || 0, parseFloat(price) || 0, image || null, address || null, type_activity || null, distance, openTime, closeTime]
         ).catch(handleDatabaseError);
         if (update.affectedRows === 1)
             return true
@@ -20,7 +21,7 @@ class activityModel {
     }
 
     // select activity
-    async getActivity({ name }) {
+    static async getActivity({ name }) {
         const get = await db.query(`
             SELECT * from Activity
             Where name = ?`, [name]
@@ -31,4 +32,4 @@ class activityModel {
     }
 }
 
-module.exports = new activityModel()
+module.exports = activityModel

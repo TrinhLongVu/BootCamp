@@ -7,7 +7,7 @@ const {
 
 class planModel {
     // Delete plan but only using hidden view
-    async hiddenPlan({ idPlan, idUser }) {
+    static async hiddenPlan({ idPlan, idUser }) {
         const update = await db.query(`
             UPDATE Plan
             SET isViewed = ?
@@ -19,7 +19,7 @@ class planModel {
     }
 
     // Back view detail then update viewAt
-    async viewPlan(id) {
+    static async viewPlan(id) {
         const update = await db.query(`
             UPDATE Plan
             SET viewedAt = ?
@@ -31,7 +31,7 @@ class planModel {
     }
 
     // Create Plan
-    async createPlan({budget, id_user, destination, start_day, end_day, id_transport}) {
+    static async createPlan({budget, id_user, destination, start_day, end_day, id_transport}) {
         const add = await db.query(`
             insert into Plan(budget, id_user, destination, start_day, end_day, id_transport, isViewed, createAt)
             values(?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, destination, start_day, end_day, id_transport, true, new Date()]).catch(handleDatabaseError);
@@ -40,7 +40,7 @@ class planModel {
         return false;
     }
 
-    async createPlanActivity({ idPlan, idActivity, calendar }) {
+    static async createPlanActivity({ idPlan, idActivity, calendar }) {
         const add = await db.query(`
             insert into Activity_Plan(id_activity, id_plan, calendar)
             values(?, ?, ?)`, [idPlan, idActivity, calendar]).catch(handleDatabaseError);
@@ -49,7 +49,7 @@ class planModel {
         return false;
     }    
 
-    async createPlanAccommodation({ id_accommodation, idActivity, calendar }) {
+    static async createPlanAccommodation({ id_accommodation, idActivity, calendar }) {
         const add = await db.query(`
             insert into Accommodation_Plan(id_accommodation, id_plan, calendar)
             values(?, ?, ?)`, [id_accommodation, idActivity, calendar]).catch(handleDatabaseError);
@@ -58,7 +58,7 @@ class planModel {
         return false;
     }  
 
-    async getPlan({ idPlan, idUser }) {
+    static async getPlan({ idPlan, idUser }) {
         const plan = await db.query(`
             select distinct *
             from Plan p
@@ -69,7 +69,7 @@ class planModel {
     }
 
     // Get all activity of a user's plan.
-    async getActivityOfUser({ idPlan, idUser }) {
+    static async getActivityOfUser({ idPlan, idUser }) {
         const plan = await db.query(`
             select distinct a.*, ap.calendar
             from Plan p, Activity_Plan ap, Activity a
@@ -81,7 +81,7 @@ class planModel {
     }
 
     // Get all accommodation of a user's plan.
-    async getAccomodationOfUser({ idPlan, idUser }) {
+    static async getAccomodationOfUser({ idPlan, idUser }) {
         const plan = await db.query(`
             select distinct a.*, ap.calendar
             from Plan p, Accommodation_Plan ap, Accommodation a
@@ -93,15 +93,15 @@ class planModel {
     }
 
     // Get all plan of user
-    async getUserPlaning(idUser) {
+    static async getUserPlaning() {
         const plan = await db.query(`
             select * 
             from Plan
-            where id_user = '1'`
+            where id_user = ?`
         ,[idUser]
         );
         return plan;
     }
 }
 
-module.exports = new planModel()
+module.exports = planModel

@@ -6,17 +6,30 @@ const {
 } = require('../helpers/catch.error')
 
 class accommodationModel {
-    async insertDB({ name, price, rating, type_accommodation }) {
+    static async insertDB({ name, price, rating, address }) {
         const update = await db.query(`
-            insert into Accommodation(name, price, rating, type_accommodation)
-            values(?, ?, ?, ?);`, [name, price, rating, type_accommodation]
+            insert into Accommodation(name, price, rating, address)
+            values(?, ?, ?, ?);`, [name, price, rating, address]
         ).catch(handleDatabaseError);
-        if (update.affectedRows === 1)
-            return true
+        if (update.affectedRows === 1) {
+            const newId = update.insertId;
+            return newId;
+        }
         return false;
     }
 
-    async getAccommodation({ name }) {
+    static async Accommodation_RcAccommodation({idAccommodation, idRcAccommodation}) {
+        const update = await db.query(`
+            insert into Accommodation_RcAccommodation(idAccommodation, idRcAccommodation)
+            values(?, ?);`, [idAccommodation, idRcAccommodation]
+        ).catch(handleDatabaseError);
+        if (update.affectedRows === 1) {
+            return true
+        }
+        return false;
+    }
+
+    static async getAccommodation({ name }) {
         const get = await db.query(`
             SELECT * from Accommodation
             Where name = ?`, [name]
@@ -27,4 +40,4 @@ class accommodationModel {
     }
 }
 
-module.exports = new accommodationModel()
+module.exports = accommodationModel
