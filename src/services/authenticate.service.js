@@ -7,11 +7,10 @@ const {
 const userModel = require('../models/user.m')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-const { generateOTP, sendOTP } = require("../utils");
+const { generateOTP, sendOTP, getInfoData } = require("../utils");
 
 class AuthenticateService {
     static signUp = async ({
-        name,
         email,
         password
     }) => {
@@ -21,7 +20,11 @@ class AuthenticateService {
         }
 
         const passHash = await bcrypt.hash(password, 10)
-        const newuser = await userModel.addUser({ email, fullname: name, password: passHash })
+
+        // get full name from email
+        const fullname = email.split("@")[0]
+
+        const newuser = await userModel.addUser({ email, fullname, password: passHash })
         
         if (!newuser) {
             throw new BadRequest("Error create user")
@@ -30,7 +33,7 @@ class AuthenticateService {
         return {
             user: {
                 id: newuser.insertId,
-                fullname: name, 
+                fullname, 
                 email: email
             }
         }
@@ -53,7 +56,7 @@ class AuthenticateService {
         
         return {
             token: token,
-            expiresIn: '1h'
+            expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000)
         }
     }
 
@@ -103,9 +106,25 @@ class AuthenticateService {
             throw new BadRequest("Save otp is failed")
         }
 
-        return {
-            user
+        return getInfoData({
+            fields: ['id', 'fullname', 'email'],
+            object: user
+        })
+    }
+
+    static changePassword = async ({email, newPassword}) => {
+        let user = await userModel.getUser({ email })
+        if (user == undefined) {
+            throw new BadRequest("User is not exits")
         }
+        const passHash = await bcrypt.hash(newPassword, 10)
+        const isUpdated = await userModel.updatePassword({ email, password: passHash });
+
+        if (!isUpdated) {
+            throw new BadRequest("change password is failed")
+        }
+
+        return {}
     }
 }
 

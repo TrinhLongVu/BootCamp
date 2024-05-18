@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const recomendation = require('../../controllers/lables.recommend.c')
+const recomendation = require('../../controllers/references.c')
 const { asyncHandler } = require('../../helpers/catch.asyns')
 const isLogin = require('../../middleware/auth')
     

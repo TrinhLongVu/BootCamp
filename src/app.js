@@ -5,6 +5,10 @@ const morgan = require("morgan")
 const compression = require("compression")
 const cloudinary = require('cloudinary').v2;
 const fileUpload = require('express-fileupload')
+const cors = require('cors');
+
+// setup cors
+app.use(cors());
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -29,6 +33,14 @@ app.use(compression()) // Decrease load data
 //Connect DB
 //require('./dbs/mongodb')
 require('./dbs/mysql'); 
+
+//inset data into database
+// const {activity, Accommodation} = require('./uploadfilecsv/uploadfile')
+// insertData = async () => {
+//     await activity('activity.csv')
+//     await Accommodation('Accommodation.csv')
+// }
+// insertData()
 
 //router
 app.use('/v1/api', require('./routers'))

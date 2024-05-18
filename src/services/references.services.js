@@ -4,7 +4,7 @@ const {
     AuthRequest
 } = require('../core/error.response')
 
-const lablesrModel = require('../models/labels.recommend.m')
+const lablesrModel = require('../models/references.m')
 
 class LablesService {
     static getAccommodation = async () => {

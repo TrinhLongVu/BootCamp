@@ -5,6 +5,7 @@ const {
 } = require('../core/error.response')
 const cloudinary = require('cloudinary').v2;
 const userModel = require('../models/user.m')
+const { getInfoData } = require('../utils/index')
 
 
 class userService {
@@ -13,9 +14,10 @@ class userService {
         if (user == undefined) {
             throw new BadRequest("User is not exits")
         }
-        return {
-            user
-        }
+        return getInfoData({
+            fields: ['id', 'fullname', 'email', 'avatar'],
+            object: user
+        })
     }
     
     static updateInfo = async ({ email, file, name }) => {
@@ -42,9 +44,10 @@ class userService {
             throw new BadRequest("update user failed")
         }
 
-        return {
-            user: newUser
-        }
+        return getInfoData({
+            fields: ['id', 'fullname', 'email', 'avatar'],
+            object: newUser
+        })
     }
 }
 
