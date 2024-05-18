@@ -56,7 +56,7 @@ class AuthenticateService {
         
         return {
             token: token,
-            expiresIn: '1h'
+            expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000)
         }
     }
 
