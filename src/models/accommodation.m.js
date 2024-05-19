@@ -6,14 +6,13 @@ const {
 } = require('../helpers/catch.error')
 
 class accommodationModel {
-    static async insertDB({ name, price, rating, address }) {
+    static async insertDB({id, name, price, rating, address }) {
         const update = await db.query(`
-            insert into Accommodation(name, price, rating, address)
-            values(?, ?, ?, ?);`, [name, price, rating, address]
+            insert into Accommodation(id, name, price, rating, address)
+            values(?, ?, ?, ?, ?);`, [id, name, price, rating, address]
         ).catch(handleDatabaseError);
         if (update.affectedRows === 1) {
-            const newId = update.insertId;
-            return newId;
+            return id;
         }
         return false;
     }

@@ -22,7 +22,7 @@ class UserModel {
     static async addUser({ email, fullname, password}) {
         const user = await db.query(`
             INSERT INTO User (fullname, email, password, avatar, role, isActivated)
-            VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, 'http://res.cloudinary.com/dupsdtrvy/image/upload/v1716004762/1716004760302.jpg', 'user', false]
+            VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, 'http://res.cloudinary.com/dupsdtrvy/image/upload/v1716131826/1716131820650.png', 'user', false]
         ).catch(handleDatabaseError);
         if (user.affectedRows === 1)
             return true

@@ -37,7 +37,7 @@ class planService {
     }
 
     // create plan 
-    static createPlan = async ({ budget, id_user, destination, start_day, end_day, priceTransport }, idUser) => {
+    static createPlan = async ({ budget, id_user, destination, start_day, end_day }, idUser) => {
         // handle after
         await  transportModel.createTransport()
     }

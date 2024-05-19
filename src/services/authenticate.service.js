@@ -59,7 +59,8 @@ class AuthenticateService {
             name: user.name,
             image: user.avatar,
             email: user.email,
-            active: user.isActivated
+            active: user.isActivated,
+            username: user.fullname
         }
     }
 
