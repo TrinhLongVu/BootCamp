@@ -44,19 +44,22 @@ class AuthenticateService {
         if (user == undefined) {
             throw new BadRequest("User is not exits")
         }
+        if (!user.isActivated) {
+            throw new AuthRequest("User is not active")
+        }
         if (!bcrypt.compareSync(password, user.password)) {
             throw new AuthRequest("Error Password")
         }
-
-        if (!user.isActivated) {
-            throw new AuthRequest("Login failed")
-        }
-
         const token = jwt.sign(user, process.env.KEY_TOKEN, { expiresIn: '1h' }); 
         
         return {
             token: token,
-            expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000)
+            expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000),
+            userId: user.id,
+            name: user.name,
+            image: user.avatar,
+            email: user.email,
+            active: user.isActivated
         }
     }
 
@@ -83,7 +86,7 @@ class AuthenticateService {
 
         return {
             otp: OTP,
-            createAt
+            createAt,
         }
     }
 

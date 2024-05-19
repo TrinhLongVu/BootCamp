@@ -27,7 +27,7 @@ class activityModel {
             Where name = ?`, [name]
         ).catch(handleDatabaseError);
         if (get.affectedRows === 1)
-            return true
+            return get
         return false;
     }
 }
