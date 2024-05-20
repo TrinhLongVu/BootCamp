@@ -9,7 +9,7 @@ class userController {
     getInfo = async (req, res, next) => {
         new OK({
             message: 'get user success',
-            messageData: await userService.getInfo(req.user.email)
+            messageData: await userService.getInfo(req.params.id)
         }).send(res)
     }
 

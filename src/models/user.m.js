@@ -18,6 +18,15 @@ class UserModel {
         );
         return user[0];
     }
+
+    static async getUserById({ id }) {
+        const user = await db.query(`
+            SELECT * 
+            FROM User
+            WHERE id = ?`, [id]
+        );
+        return user[0];
+    }
         
     static async addUser({ email, fullname, password}) {
         const user = await db.query(`

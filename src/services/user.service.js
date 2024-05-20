@@ -9,8 +9,8 @@ const { getInfoData } = require('../utils/index')
 
 
 class userService {
-    static getInfo = async (email) => {
-        const user = await userModel.getUser({ email })
+    static getInfo = async (id) => {
+        const user = await userModel.getUserById({ id })
         if (user == undefined) {
             throw new BadRequest("User is not exits")
         }
