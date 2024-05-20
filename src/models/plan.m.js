@@ -31,28 +31,28 @@ class planModel {
     }
 
     // Create Plan
-    static async createPlan({budget, id_user, destination, start_day, end_day, id_transport}) {
+    static async createPlan({budget, id_user, start_point, end_point, start_day, end_day, id_transport}) {
         const add = await db.query(`
-            insert into Plan(budget, id_user, destination, start_day, end_day, id_transport, isViewed, createAt)
-            values(?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, destination, start_day, end_day, id_transport, true, new Date()]).catch(handleDatabaseError);
+            insert into Plan(budget, id_user, start_point, end_point, start_day, end_day, id_transport, isViewed, createAt)
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, start_point, end_point, start_day, end_day, id_transport, true, new Date()]).catch(handleDatabaseError);
         if (add.affectedRows === 1)
-            return true
+            return add.insertId;
         return false;
     }
 
     static async createPlanActivity({ idPlan, idActivity, calendar }) {
         const add = await db.query(`
             insert into Activity_Plan(id_activity, id_plan, calendar)
-            values(?, ?, ?)`, [idPlan, idActivity, calendar]).catch(handleDatabaseError);
+            values(?, ?, ?)`, [idActivity, idPlan, calendar]).catch(handleDatabaseError);
         if (add.affectedRows === 1)
             return true
         return false;
     }    
 
-    static async createPlanAccommodation({ id_accommodation, idActivity, calendar }) {
+    static async createPlanAccommodation({ id_accommodation, idPlan }) {
         const add = await db.query(`
-            insert into Accommodation_Plan(id_accommodation, id_plan, calendar)
-            values(?, ?, ?)`, [id_accommodation, idActivity, calendar]).catch(handleDatabaseError);
+            insert into Accommodation_Plan(id_accommodation, id_plan)
+            values(?, ?)`, [id_accommodation, idPlan])
         if (add.affectedRows === 1)
             return true
         return false;
@@ -64,7 +64,7 @@ class planModel {
             from Plan p
             where p.id_user = ? and p.id = ?`
             ,[idUser, idPlan]
-        );
+        ).catch(handleDatabaseError);;
         return plan[0];
     }
 
@@ -76,7 +76,7 @@ class planModel {
             where p.id_user = ? and p.id = ? and ap.id_plan = p.id and a.id = ap.id_activity and p.isViewed = true
             order by ap.calendar;`
             ,[idUser, idPlan]
-        );
+        ).catch(handleDatabaseError);;
         return plan;
     }
 
@@ -88,7 +88,7 @@ class planModel {
             where p.id_user = ? and p.id = ? and ap.id_plan = p.id and  a.id = ap.id_accommodation and p.isViewed = true
             order by ap.calendar;`
             ,[idUser, idPlan]
-        );
+        ).catch(handleDatabaseError);;
         return plan;
     }
 
@@ -99,8 +99,20 @@ class planModel {
             from Plan
             where id_user = ?`
         ,[idUser]
-        );
+        ).catch(handleDatabaseError);;
         return plan;
+    }
+
+    static async getCodeAirport(city) {
+        const code = await db.query(`
+            select idCode 
+            from AirportCode
+            where city = ?`
+        ,[city]
+        ).catch(handleDatabaseError);
+        if (code[0] != undefined) 
+            return code[0]
+        return false;
     }
 }
 

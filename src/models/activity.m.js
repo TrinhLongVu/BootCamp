@@ -22,12 +22,12 @@ class activityModel {
 
     // select activity
     static async getActivity({ id }) {
-        const get = await db.query(`
+        const activity = await db.query(`
             SELECT * from Activity
             Where id = ?`, [id]
         ).catch(handleDatabaseError);
-        if (get.affectedRows === 1)
-            return get
+        if (activity[0] != undefined)
+            return activity[0]
         return false;
     }
 }

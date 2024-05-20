@@ -28,13 +28,14 @@ class accommodationModel {
         return false;
     }
 
-    static async getAccommodation({ name }) {
-        const get = await db.query(`
+    static async getAccommodation({ id }) {
+        const accommodation = await db.query(`
             SELECT * from Accommodation
-            Where name = ?`, [name]
+            Where id = ?`, [id]
         ).catch(handleDatabaseError);
-        if (get.affectedRows === 1)
-            return true
+
+        if (accommodation[0] != undefined)
+            return accommodation[0]
         return false;
     }
 }

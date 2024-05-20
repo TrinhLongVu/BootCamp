@@ -31,14 +31,13 @@ app.use(morgan("dev")) // Change color status in terminal
 app.use(compression()) // Decrease load data
 
 //Connect DB
-//require('./dbs/mongodb')
 require('./dbs/mysql'); 
 
 //inset data into database
 // const {activity, Accommodation} = require('./uploadfilecsv/uploadfile')
 // insertData = async () => {
-//    //await activity('activity_1.csv')
-//    //await Accommodation('combined_hotel_data2.csv')
+//    await activity('activity_1.csv')
+//    await Accommodation('combined_hotel_data2.csv')
 // }
 // insertData()
 

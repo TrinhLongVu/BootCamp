@@ -31,7 +31,7 @@ class userService {
             newUser.fullname = name;
         }
 
-        if (file.image) {
+        if (file) {
             const result = await cloudinary.uploader.upload(file.image.tempFilePath, {
                 public_id: `${Date.now()}`,
                 resource_type: "auto",
