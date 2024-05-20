@@ -33,8 +33,8 @@ class planModel {
     // Create Plan
     static async createPlan({budget, id_user, start_point, end_point, start_day, end_day, id_transport}) {
         const add = await db.query(`
-            insert into Plan(budget, id_user, start_point, end_point, start_day, end_day, id_transport, isViewed, createAt)
-            values(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, start_point, end_point, start_day, end_day, id_transport, true, new Date()]).catch(handleDatabaseError);
+            insert into Plan(budget, id_user, start_point, end_point, start_day, end_day, id_transport, isViewed, createAt, viewedAt)
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, start_point, end_point, start_day, end_day, id_transport, true, new Date(), new Date()]).catch(handleDatabaseError);
         if (add.affectedRows === 1)
             return add.insertId;
         return false;
@@ -83,10 +83,9 @@ class planModel {
     // Get all accommodation of a user's plan.
     static async getAccomodationOfUser({ idPlan, idUser }) {
         const plan = await db.query(`
-            select distinct a.*, ap.calendar
+            select distinct a.*
             from Plan p, Accommodation_Plan ap, Accommodation a
-            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and  a.id = ap.id_accommodation and p.isViewed = true
-            order by ap.calendar;`
+            where p.id_user = ? and p.id = ? and ap.id_plan = p.id and  a.id = ap.id_accommodation and p.isViewed = true;`
             ,[idUser, idPlan]
         ).catch(handleDatabaseError);;
         return plan;
@@ -113,6 +112,19 @@ class planModel {
         if (code[0] != undefined) 
             return code[0]
         return false;
+    }
+
+    static async viewRecent(idUser) {
+        const plan = await db.query(`
+            select id, start_point, end_point, start_day, end_day
+            from Plan
+            where id_user = ?
+            order by viewedAt
+            limit 4;
+            `
+        ,[idUser]
+        ).catch(handleDatabaseError);
+        return plan
     }
 }
 

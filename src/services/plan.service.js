@@ -102,8 +102,8 @@ class planService {
         if(!idPlan) throw new BadRequest("create plan failed")
         let count = 1;
         let calendar = new Date(start_day);
+        // update table activity with plan
         for (const idActivity of activities) {
-            console.log(idActivity, idPlan)
             const isSuccess = await planModel.createPlanActivity({ idPlan: idPlan, idActivity: idActivity, calendar })
             if(!isSuccess) throw new BadRequest("create plan activity failed")
             if (count % 3 == 0) {
@@ -124,11 +124,16 @@ class planService {
             plan
         }
     }
-
+    
     static viewAt = async ({ idPlan }) => {
         const isUpdated = await planModel.viewPlan(idPlan)
         if (!isUpdated) throw new BadRequest("update view is failed");
         return {}
+    }
+
+    static viewRecent = async (idUser) => {
+        const listPlan = await planModel.viewRecent(idUser)
+        return listPlan
     }
 }
 

@@ -13,5 +13,6 @@ router.post('/create', isLogin, asyncHandler(planController.createPlan))
 router.post('/save', isLogin, asyncHandler(planController.savePlan))
 router.post('/checkValid', isLogin, asyncHandler(planController.checkValid))
 router.post('/viewAt', isLogin, asyncHandler(planController.viewAt))
+router.get('/viewRecent',isLogin, asyncHandler(planController.viewRecent))
 
 module.exports = router

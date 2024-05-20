@@ -47,11 +47,18 @@ class planController {
             messageData: await planService.savePlan(req.body, req.user.id)
         }).send(res)
     }
-    // view At
+    // update view At
     viewAt = async (req, res, next) => {
         new OK({
             message: 'update view at success',
             messageData: await planService.viewAt(req.body, req.user.id)
+        }).send(res)
+    }
+    // get top 4 view recent
+    viewRecent = async (req, res, next) => {
+        new OK({
+            message: 'view success',
+            messageData: await planService.viewRecent(req.user.id)
         }).send(res)
     }
 }

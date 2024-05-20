@@ -6,8 +6,8 @@ const recomendation = require('../../controllers/references.c')
 const { asyncHandler } = require('../../helpers/catch.asyns')
 const isLogin = require('../../middleware/auth')
     
-router.get('/RcAccommodation', isLogin, asyncHandler(recomendation.RcAccommodation))
-router.get('/RcActivity', isLogin, asyncHandler(recomendation.RcActivity))
-router.get('/RcTransport', isLogin, asyncHandler(recomendation.RcTransport))
+router.get('/RcAccommodation', asyncHandler(recomendation.RcAccommodation))
+router.get('/RcActivity', asyncHandler(recomendation.RcActivity))
+router.get('/RcTransport', asyncHandler(recomendation.RcTransport))
 
 module.exports = router
