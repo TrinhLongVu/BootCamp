@@ -2,6 +2,8 @@
 const { getJson } = require("serpapi");
 
 class helpers {
+
+    // get flight call api using serpapi
     static async getflight({departure_id, arrival_id, outbound_date, return_date}) {
         try {
             return await getJson({
@@ -21,6 +23,8 @@ class helpers {
             console.log(err)
         }
     }
+
+    // get recommendation from model 
     static async getRecommendPlan({ days, city, id, types, amenities_input, budget, type_transport, start_day, end_day, start_point }) {
         const fetch = (await import('node-fetch')).default;
         const url = 'http://127.0.0.1:3005/handle';
@@ -36,7 +40,9 @@ class helpers {
             end_day,
             start_point
         };
-      
+
+        console.log(data)
+
         try {
             const response = await fetch(url, {
                 method: 'POST', 

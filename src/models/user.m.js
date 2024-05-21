@@ -6,10 +6,7 @@ const {
 } = require('../helpers/catch.error')
 
 class UserModel {
-    static async getAllUsers() {
-        return await db.query('SELECT * FROM user').catch(handleDatabaseError);
-    }
-
+    // get user by email. email is unique
     static async getUser({ email }) {
         const user = await db.query(`
             SELECT * 
@@ -19,6 +16,7 @@ class UserModel {
         return user[0];
     }
 
+    // get user by id
     static async getUserById({ id }) {
         const user = await db.query(`
             SELECT * 
@@ -28,6 +26,7 @@ class UserModel {
         return user[0];
     }
         
+    // save user into database
     static async addUser({ email, fullname, password}) {
         const user = await db.query(`
             INSERT INTO User (fullname, email, password, avatar, role, isActivated)
@@ -38,6 +37,7 @@ class UserModel {
         return false;
     }
 
+    // update otp for user
     static async updateOtp({ otp, email, createAt }) {
         const user = await db.query(`
             UPDATE User
@@ -49,6 +49,7 @@ class UserModel {
         return false;
     }
 
+    // if user verify otp success then user is activated
     static async activeUser({email}) {
         const user = await db.query(`
             UPDATE User
@@ -60,6 +61,7 @@ class UserModel {
         return false;
     }
 
+    // update into user
     static async updateUser({ user }) {
         const update = await db.query(`
             UPDATE User
@@ -71,6 +73,7 @@ class UserModel {
         return false;
     }
     
+    // update password user when user forgot password
     static async updatePassword({ email, password }) {
         const update = await db.query(`
             UPDATE User

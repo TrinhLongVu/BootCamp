@@ -6,6 +6,7 @@ const {
 } = require('../helpers/catch.error')
 
 class accommodationModel {
+    // insert accommodation into database
     static async insertDB({id, name, price, rating, address }) {
         const update = await db.query(`
             insert into Accommodation(id, name, price, rating, address)
@@ -17,6 +18,7 @@ class accommodationModel {
         return false;
     }
 
+    // insert amentity into acommodation. due 1 acommodation have more amentity
     static async Accommodation_RcAccommodation({idAccommodation, idRcAccommodation}) {
         const update = await db.query(`
             insert into Accommodation_RcAccommodation(idAccommodation, idRcAccommodation)
@@ -28,6 +30,7 @@ class accommodationModel {
         return false;
     }
 
+    // get accommodation by id
     static async getAccommodation({ id }) {
         const accommodation = await db.query(`
             SELECT * from Accommodation

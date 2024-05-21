@@ -6,6 +6,7 @@ const {
 const userService = require("../services/user.service")
 
 class userController {
+    // get info user
     getInfo = async (req, res, next) => {
         new OK({
             message: 'get user success',

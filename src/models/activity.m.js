@@ -6,6 +6,7 @@ const {
 } = require('../helpers/catch.error')
 
 class activityModel {
+    // insert activity into database.
     static async insertDB({ id, name, rating, num_comment, price,image, address, distance, type_activity, openTime, closeTime }) {
         if (image.length > 1000) {
             image = null

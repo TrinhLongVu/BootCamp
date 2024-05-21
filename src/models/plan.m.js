@@ -40,6 +40,7 @@ class planModel {
         return false;
     }
 
+    // connect activities are included in a plan 
     static async createPlanActivity({ idPlan, idActivity, calendar }) {
         const add = await db.query(`
             insert into Activity_Plan(id_activity, id_plan, calendar)
@@ -49,6 +50,7 @@ class planModel {
         return false;
     }    
 
+    // connect accommodation are included in a plan 
     static async createPlanAccommodation({ id_accommodation, idPlan }) {
         const add = await db.query(`
             insert into Accommodation_Plan(id_accommodation, id_plan)
@@ -58,6 +60,7 @@ class planModel {
         return false;
     }  
 
+    // get all plan of a user
     static async getPlan({ idPlan, idUser }) {
         const plan = await db.query(`
             select distinct *
@@ -102,6 +105,7 @@ class planModel {
         return plan;
     }
 
+    // get all code airport like HaNoi-> HNA
     static async getCodeAirport(city) {
         const code = await db.query(`
             select idCode 
@@ -114,6 +118,7 @@ class planModel {
         return false;
     }
 
+    // get top 4 plan view recent
     static async viewRecent(idUser) {
         const plan = await db.query(`
             select id, start_point, end_point, start_day, end_day

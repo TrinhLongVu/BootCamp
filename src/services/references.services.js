@@ -7,16 +7,18 @@ const {
 const lablesrModel = require('../models/references.m')
 
 class LablesService {
+    // get all amentity accommodation
     static getAccommodation = async () => {
         const RcAccommodation = await lablesrModel.getRcAccommodation();
         if (!RcAccommodation) {
-            throw new BadRequest("Error get accommodation recommendations");
+            throw new BadRequest("Error get amentity accommodation");
         }
         return {
             lables: RcAccommodation
         }
     }
 
+    // get all activity recommendation
     static getActivity = async () => {
         const RcActivity = await lablesrModel.getRcActivity();
         if (!RcActivity) {
@@ -27,6 +29,7 @@ class LablesService {
         }
     }
 
+    // get all transport recommendation
     static getTransport = async () => {
         const RcTransport = await lablesrModel.getRcTransport();
         if (!RcTransport) {

@@ -9,6 +9,7 @@ const { getInfoData } = require('../utils/index')
 
 
 class userService {
+    // get info user
     static getInfo = async (id) => {
         const user = await userModel.getUserById({ id })
         if (user == undefined) {
@@ -20,6 +21,7 @@ class userService {
         })
     }
     
+    // update user
     static updateInfo = async ({ email, file, name }) => {
         const user = await userModel.getUser({ email })
         const newUser = user
@@ -31,6 +33,7 @@ class userService {
             newUser.fullname = name;
         }
 
+        // push image into cloudinary and get url.
         if (file) {
             const result = await cloudinary.uploader.upload(file.image.tempFilePath, {
                 public_id: `${Date.now()}`,
