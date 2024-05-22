@@ -19,15 +19,39 @@ class transportModel {
     }
 
     // create transport of a plan
-    static async createTransport({price, type, name, start_time, end_time}) {
+    static async createTransport({price, type, name, start_time, end_time, duration}) {
         const add = await db.query(`
-            insert into Transport(price, type, name, start_time, end_time)
-            values(?, ?, ?, ?, ?)`, [price, type, name, start_time, end_time]).catch(handleDatabaseError);
+            insert into Transport(price, type, name, start_time, end_time, duration)
+            values(?, ?, ?, ?, ?, ?)`, [price, type, name, start_time || null, end_time || null, duration || null]).catch(handleDatabaseError);
         if (add.affectedRows === 1) {
             const newId = add.insertId;
             return newId;
         }
         return false;
+    }
+
+    // create coach
+    static async createCoach({start_point, end_point, price, name, duration }) {
+        const add = await db.query(`
+            insert into Coach(start_point, end_point, price, name, duration )
+            values(?, ?, ?, ?, ?)`, [start_point, end_point, price, name, duration]).catch(handleDatabaseError);
+        if (add.affectedRows === 1) {
+            const newId = add.insertId;
+            return newId;
+        }
+        return false;
+    }
+
+    // transport
+    static async getTransport({ id }) {
+        const coach = await db.query(`
+            select *
+            from Transport
+            where id=?; 
+            `
+            ,[id]
+        ).catch(handleDatabaseError);
+        return coach
     }
 }
 

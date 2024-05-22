@@ -34,7 +34,7 @@ class planModel {
     static async createPlan({budget, id_user, start_point, end_point, start_day, end_day, id_transport}) {
         const add = await db.query(`
             insert into Plan(budget, id_user, start_point, end_point, start_day, end_day, id_transport, isViewed, createAt, viewedAt)
-            values(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, start_point, end_point, start_day, end_day, id_transport, true, new Date(), new Date()]).catch(handleDatabaseError);
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [budget, id_user, start_point, end_point, start_day, end_day, id_transport, true, new Date(), new Date()]).catch(handleDatabaseError);
         if (add.affectedRows === 1)
             return add.insertId;
         return false;
@@ -63,7 +63,7 @@ class planModel {
     // get all plan of a user
     static async getPlan({ idPlan, idUser }) {
         const plan = await db.query(`
-            select distinct *
+            select *
             from Plan p
             where p.id_user = ? and p.id = ?`
             ,[idUser, idPlan]
@@ -74,7 +74,7 @@ class planModel {
     // Get all activity of a user's plan.
     static async getActivityOfUser({ idPlan, idUser }) {
         const plan = await db.query(`
-            select distinct a.*, ap.calendar
+            select a.*, ap.calendar
             from Plan p, Activity_Plan ap, Activity a
             where p.id_user = ? and p.id = ? and ap.id_plan = p.id and a.id = ap.id_activity and p.isViewed = true
             order by ap.calendar;`
@@ -86,7 +86,7 @@ class planModel {
     // Get all accommodation of a user's plan.
     static async getAccomodationOfUser({ idPlan, idUser }) {
         const plan = await db.query(`
-            select distinct a.*
+            select a.*
             from Plan p, Accommodation_Plan ap, Accommodation a
             where p.id_user = ? and p.id = ? and ap.id_plan = p.id and  a.id = ap.id_accommodation and p.isViewed = true;`
             ,[idUser, idPlan]
@@ -95,7 +95,7 @@ class planModel {
     }
 
     // Get all plan of user
-    static async getUserPlaning() {
+    static async getUserPlaning(idUser) {
         const plan = await db.query(`
             select * 
             from Plan
@@ -121,7 +121,7 @@ class planModel {
     // get top 4 plan view recent
     static async viewRecent(idUser) {
         const plan = await db.query(`
-            select id, start_point, end_point, start_day, end_day
+            select *
             from Plan
             where id_user = ?
             order by viewedAt
@@ -130,6 +130,51 @@ class planModel {
         ,[idUser]
         ).catch(handleDatabaseError);
         return plan
+    }
+
+    static async viewRecent4(idUser) {
+        const plan = await db.query(`
+            select p.* 
+            from Plan p, ViewPlan pv
+            where p.id = pv.idPlan and pv.idUser = ?
+            order by pv.viewAt
+            limit 4
+            `
+        ,[idUser]
+        ).catch(handleDatabaseError);
+        return plan
+    }
+
+    static async insertViewAt({idUser, idPlan}) {
+        const existingPlan = await db.query(
+            `
+            SELECT * 
+            FROM ViewPlan 
+            WHERE idUser = ? AND idPlan = ?
+            `,
+            [idUser, idPlan]
+        ).catch(handleDatabaseError);
+
+        if (existingPlan.length > 0) {
+            // If the plan exists, update viewAt
+            return await db.query(
+                `
+                UPDATE ViewPlan 
+                SET viewAt = ? 
+                WHERE idUser = ? AND idPlan = ?
+                `,
+                [new Date(), idUser, idPlan]
+            ).catch(handleDatabaseError);
+        } else {
+            // If the plan doesn't exist, create a new record
+            return await db.query(
+                `
+                INSERT INTO ViewPlan (idUser, idPlan, viewAt) 
+                VALUES (?, ?, ?)
+                `,
+                [idUser, idPlan, new Date()]
+            ).catch(handleDatabaseError);
+        }
     }
 }
 

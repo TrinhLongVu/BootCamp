@@ -8,7 +8,7 @@ const isLogin = require('../../middleware/auth')
     
 router.post('/hidden', isLogin, asyncHandler(planController.hiddenPlan))
 router.post('/detail', isLogin, asyncHandler(planController.getDetailPlan))
-router.get('/user', isLogin, asyncHandler(planController.getPlan))
+router.get('/user/:id', asyncHandler(planController.getPlan))
 router.post('/create', isLogin, asyncHandler(planController.createPlan))
 router.post('/save', isLogin, asyncHandler(planController.savePlan))
 router.post('/checkValid', isLogin, asyncHandler(planController.checkValid))

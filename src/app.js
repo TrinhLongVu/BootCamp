@@ -34,10 +34,11 @@ app.use(compression()) // Decrease load data
 require('./dbs/mysql'); 
 
 //inset data into database
-// const {activity, Accommodation} = require('./uploadfilecsv/uploadfile')
+// const {activity, Accommodation, Coach} = require('./uploadfilecsv/uploadfile')
 // insertData = async () => {
 //    await activity('activity_1.csv')
-//    await Accommodation('combined_hotel_data2.csv')
+//        await Accommodation('combined_hotel_data2.csv')
+//     //await Coach('shuttle.csv')
 // }
 // insertData()
 

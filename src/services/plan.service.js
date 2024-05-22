@@ -20,6 +20,8 @@ class planService {
 
     static getDetailPlan = async (idPlan, idUser) => {
         const plan = await planModel.getPlan({ idPlan, idUser })
+        await planModel.insertViewAt({ idUser, idPlan })        
+
         if (plan == undefined) {
             throw new BadRequest("plan is not exits")
         }
@@ -28,11 +30,13 @@ class planService {
         const activity = await planModel.getActivityOfUser({ idPlan, idUser });
         // get all accommodation of a user's plan
         const accommodation = await planModel.getAccomodationOfUser({ idPlan, idUser });
+        const transport = await transportModel.getTransport({id: plan.id_transport})
         
         return {
             plan,
             activity,
-            accommodation
+            accommodation,
+            transport
         }
     }
 
@@ -51,10 +55,14 @@ class planService {
 
     // create plan 
     static createPlan = async ({ types, amenities_input, budget, start_day, end_day, start_point, end_point, type_transport }, id) => {
-        
         // get day from start day to end day
         const days = (new Date(end_day) - new Date(start_day)) / (1000 * 60 * 60 * 24);
         let transports = [];
+
+        // amentities
+        if (amenities_input.length == 0) amenities_input = [0 , 1]
+        // types
+        if (types.length == 0) types = ['Du lịch giải trí']
         
         if (type_transport == "flight") {
             // get id code of start point and end point
@@ -98,14 +106,13 @@ class planService {
                 // get detail of activity when having id
                 activities.push(await activityModel.getActivity({id: idActivity}))
             }
-
             // get detail of hotel.
             const hotel = await accommodationModel.getAccommodation({ id: plan.hotel })
             detailPlans.push({
                 activities,
                 hotel,
                 transport: transports[0],
-                total: plan.total,
+                total: plan.total + transports[0].price,
             })
         }
         
@@ -141,11 +148,13 @@ class planService {
         // create amentity is included in plan
         const isSuccess = await planModel.createPlanAccommodation({ id_accommodation: hotel, idPlan: idPlan })
         if (!isSuccess) throw new BadRequest("create plan hotel failed")
-        return {}
+        return {
+            idPlan
+        }
     }
 
     // get all plan for user
-    static getUserPlan = async(idUser) => {
+    static getUserPlan = async (idUser) => {
         const plan = await planModel.getUserPlaning(idUser)
         return {
             plan
@@ -160,9 +169,18 @@ class planService {
     }
     
     // get recent
-    static viewRecent = async (idUser) => {
+    static viewRecent4 = async (idUser) => {
         const listPlan = await planModel.viewRecent(idUser)
-        return listPlan
+        return {
+            plan: listPlan
+        }
+    }
+
+    static viewRecent = async (idUser) => {
+        const listPlan = await planModel.viewRecent4(idUser);
+        return {
+            plan: listPlan
+        }
     }
 }
 

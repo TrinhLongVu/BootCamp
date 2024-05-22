@@ -16,19 +16,19 @@ class planController {
     getDetailPlan = async (req, res, next) => {
         new OK({
             message: 'get plan detail success',
-            messageData: await planService.getDetailPlan(req.body.idPlan, req.user.id)
+            messageData: await planService.getDetailPlan(req.body.idPlan, req.body.idUser)  
         }).send(res)
     }
     // get plan 
     getPlan = async (req, res, next) => {
         new OK({
             message: 'get plan success',
-            messageData: await planService.getUserPlan(req.user.id)
+            messageData: await planService.getUserPlan(req.params.id)
         }).send(res)
     }
     // create planning
     createPlan = async (req, res, next) => {
-        new OK({
+        new OK({ 
             message: 'create plan success',
             messageData: await planService.createPlan(req.body, req.user.id)
         }).send(res)

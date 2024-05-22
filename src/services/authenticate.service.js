@@ -50,6 +50,7 @@ class AuthenticateService {
         if (!bcrypt.compareSync(password, user.password)) {
             throw new AuthRequest("Error Password")
         }
+        // assign token.
         const token = jwt.sign(user, process.env.KEY_TOKEN, { expiresIn: '1h' }); 
         
         return {
